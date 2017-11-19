@@ -6,9 +6,8 @@ public:
   /*
   * Errors
   */
-  double p_error;
-  double i_error;
-  double d_error;
+  double prev_err;
+	double integ_err;
 
   /*
   * Coefficients
@@ -16,6 +15,10 @@ public:
   double Kp;
   double Ki;
   double Kd;
+  double min;
+  double max;
+	double integ_min;
+	double integ_max;
 
   /*
   * Constructor
@@ -30,17 +33,19 @@ public:
   /*
   * Initialize PID.
   */
-  void Init(double Kp, double Ki, double Kd);
+  void Init(double Kp, double Ki, double Kd, double min, double max, double integ_min, double integ_max);
 
   /*
-  * Update the PID error variables given cross track error.
+  * Update the PID output given process value and setpoint.
   */
-  void UpdateError(double cte);
+  double Update(double val, double sp);
 
+private:
   /*
-  * Calculate the total PID error.
+  * Internal function for checking limits.
   */
-  double TotalError();
+  double Limit(double val, double min, double max);
+	
 };
 
 #endif /* PID_H */
