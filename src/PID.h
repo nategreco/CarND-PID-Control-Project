@@ -17,8 +17,10 @@ public:
   double Kd;
   double min;
   double max;
-	double integ_min;
-	double integ_max;
+  double integ_min;
+  double integ_max;
+  double dead_band;
+  double cmd;
 
   /*
   * Constructor
@@ -33,7 +35,7 @@ public:
   /*
   * Initialize PID.
   */
-  void Init(double Kp, double Ki, double Kd, double min, double max, double integ_min, double integ_max);
+  void Init(double Kp, double Ki, double Kd, double min, double max, double integ_min, double integ_max, double dead_band);
 
   /*
   * Update the PID output given process value and setpoint.

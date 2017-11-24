@@ -36,9 +36,9 @@ int main()
   PID throt_pid;
   PID steer_pid;
   
-  // Initialize - kp,ki,kd,min,max,integ_min,integ_max
-  throt_pid.Init(0.3, 0.1, 0.0, -0.2, 1.0, -0.1, 0.1);
-  steer_pid.Init(0.15, 0.1, 0.3, -0.8, 0.8, -0.01, 0.01);
+  // Initialize - kp,ki,kd,min,max,integ_min,integ_max,dead_band
+  throt_pid.Init(0.3, 0.1, 0.0, -0.2, 1.0, -0.1, 0.1, 0.0);
+  steer_pid.Init(0.12, 0.08, 1.3, -0.7, 0.7, -0.2, 0.12, 0.12);
 
   h.onMessage([&throt_pid, &steer_pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -55,7 +55,7 @@ int main()
           double cte = std::stod(j[1]["cte"].get<std::string>());
           double speed = std::stod(j[1]["speed"].get<std::string>());
           double angle = std::stod(j[1]["steering_angle"].get<std::string>());
-          double throt_value = throt_pid.Update(speed, 20.0);
+          double throt_value = throt_pid.Update(speed, 30.0);
           double steer_value = steer_pid.Update(cte, 0.0);
           
           // DEBUG
